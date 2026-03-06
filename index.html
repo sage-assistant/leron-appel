@@ -156,7 +156,7 @@
     }
 
     .warning-list div::before {
-      content: '⚠';
+      content: '◆';
       color: var(--gold);
       margin-right: 8px;
     }
@@ -853,6 +853,98 @@
       margin: 0 auto;
     }
 
+    .moment-card {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 22px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(18,18,20,0.96), rgba(23,23,26,0.96));
+      box-shadow: 0 18px 48px rgba(0,0,0,0.42);
+    }
+
+    .moment-card img {
+      width: 100%;
+      display: block;
+      border-radius: 18px;
+      border: 1px solid rgba(199,164,90,0.22);
+      margin-bottom: 18px;
+    }
+
+    .moment-card p {
+      color: #e0e0e7;
+      font-size: 16px;
+    }
+
+    .commandments {
+      position: relative;
+      overflow: hidden;
+      padding: 34px 28px;
+      border-radius: 28px;
+      border: 1px solid rgba(199,164,90,0.28);
+      background:
+        radial-gradient(600px 240px at 50% 0%, rgba(199,164,90,0.09), transparent 70%),
+        linear-gradient(180deg, rgba(63,58,49,0.95), rgba(40,37,33,0.98));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03), 0 24px 60px rgba(0,0,0,0.45);
+    }
+
+    .commandments::before {
+      content: '';
+      position: absolute;
+      inset: 14px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.04);
+      pointer-events: none;
+    }
+
+    .commandment-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .commandment {
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(14,14,16,0.16);
+      color: #f0ece1;
+      font-size: 15px;
+    }
+
+    .commandment strong {
+      color: var(--gold);
+      margin-right: 10px;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.08em;
+    }
+
+    .declassified {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 26px;
+      border-radius: 24px;
+      border: 1px solid rgba(190,29,39,0.28);
+      background:
+        radial-gradient(700px 260px at 50% 0%, rgba(190,29,39,0.12), transparent 70%),
+        linear-gradient(180deg, rgba(18,18,20,0.98), rgba(12,12,14,0.98));
+      box-shadow: 0 18px 50px rgba(0,0,0,0.46);
+    }
+
+    .declassified img {
+      width: 100%;
+      display: block;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 20px;
+    }
+
+    .declassified-copy {
+      max-width: 920px;
+      color: #e7e7ed;
+      font-size: 17px;
+    }
+
     .easter-banner {
       position: fixed;
       left: 50%;
@@ -1043,26 +1135,39 @@
           <span class="status">DECEASED</span>
           <h4>Max Appel, The Blacksmith</h4>
           <p>Before there were spares, there was iron. Max did not buy land. He conquered it in single combat with the previous owner.</p>
+          <p>Local historians confirm that on the day Max purchased the land, every compass within a two kilometer radius pointed toward Booysens Road and did not correct for three days.</p>
           <p>Season 1 only. The ancestor whose hammer echoes in every quotation.</p>
         </article>
         <article class="cast-card">
           <span class="status">DECEASED</span>
           <h4>Lou Appel, The Gravedigger</h4>
           <p>He looked upon a field of wrecked vehicles and saw not death, but destiny. The South African government classified him as an independent economic zone.</p>
+          <p>At his funeral in February 1982, the procession of vehicles stretched from Selby to Soweto. None of them were running. All of them were inventory.</p>
           <p>Seasons 1 to 3. Passed February 1982. The yard never forgot his voice.</p>
         </article>
         <article class="cast-card">
           <span class="status">RETIRED</span>
           <h4>Raymond Appel, The Regent</h4>
           <p>When the throne sat empty, Raymond restructured the company with the ruthlessness of a man who once arm wrestled a tow truck driver for a catalytic converter and won.</p>
+          <p>During his thirty one year reign, Raymond was offered a seat on the Johannesburg City Council seven times. He declined all seven. Quote: I already govern a territory.</p>
           <p>Seasons 1 to 4. Formed Lou Appel's Auto Spares TVL PTY Ltd in January 1983.</p>
         </article>
         <article class="cast-card">
           <span class="status">RULING</span>
           <h4>Leron Appel, The Heir</h4>
           <p>2014. The year the keys changed hands. Leron is the most powerful man south of the equator whose name appears on zero Forbes lists, which is itself suspicious.</p>
+          <p>Forbes magazine has attempted to profile Leron Appel on four separate occasions. Each journalist returned from Booysens Road changed. One became a mechanic. Another wrote a novel. The third simply stared out of office windows for six months before resigning. The fourth was never found.</p>
           <p>Seasons 3 to present. Current king of 233 Booysens Road, corner Webber Street, Selby, Johannesburg.</p>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="moment-card reveal">
+        <img src="succession.jpg" alt="Old iron keys with a skull keychain being passed from father to son" loading="lazy">
+        <p>The Handing of the Keys, 2014. Raymond Appel transfers operational command to Leron Appel in what witnesses describe as the most emotionally charged Tuesday afternoon in South African automotive history. The skull keychain has been in the family since the Motor Graveyard era. It has never been cleaned. Cleaning it would be disrespectful.</p>
       </div>
     </div>
   </section>
@@ -1123,6 +1228,10 @@
           <div class="imdb">IMDb 10.0</div>
         </article>
       </div>
+      <div class="moment-card reveal" style="margin-top: 24px;">
+        <img src="mercedes.jpg" alt="The mysterious 1984 Mercedes 230E in a dark warehouse corner" loading="lazy">
+        <p>Production still from S4E6. The 1984 Mercedes 230E that Lou Appel began stripping in 1981 but never finished. It has sat untouched for over forty years. Three separate camera operators reported feeling watched during filming. One quit on the spot. The other two now work in real estate.</p>
+      </div>
     </div>
   </section>
 
@@ -1131,6 +1240,30 @@
       <img src="throne.jpg" alt="The Iron Throne of Booysens Road" class="throne-img" loading="lazy">
       <div class="throne-caption">The Iron Throne of Booysens Road</div>
       <div class="throne-sub">Forged from the engines of one thousand surrendered vehicles. No Appel has ever sat in it comfortably. That is the point.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="commandments reveal">
+        <div class="section-head" style="margin-bottom: 0;">
+          <p class="label">Yard Law</p>
+          <h3 class="display">The Scrapyard Commandments</h3>
+          <p>These laws are not posted for decoration. They are enforced by memory, precedent, and tone of voice.</p>
+        </div>
+        <div class="commandment-list">
+          <div class="commandment"><strong>I</strong>Thou shalt not arrive without knowing thy vehicle make, model, and year.</div>
+          <div class="commandment"><strong>II</strong>Thou shalt not haggle on a Monday. Mondays are for receiving.</div>
+          <div class="commandment"><strong>III</strong>The deeper yard is earned, not requested.</div>
+          <div class="commandment"><strong>IV</strong>If the part exists, the Appels have it. If they do not have it, it does not exist.</div>
+          <div class="commandment"><strong>V</strong>No photographs of aisle seven. This is not negotiable.</div>
+          <div class="commandment"><strong>VI</strong>The skull and crossbones is not decoration. It is doctrine.</div>
+          <div class="commandment"><strong>VII</strong>Payment is rendered before the part leaves the premises. This has been policy since the Gravedigger era.</div>
+          <div class="commandment"><strong>VIII</strong>All vehicles entering the yard surrender their identity. They become spares. This is not sad. This is transformation.</div>
+          <div class="commandment"><strong>IX</strong>Leron's word is final. There is no appeals process. This is not a pun. The Appels do not make puns.</div>
+          <div class="commandment"><strong>X</strong>The yard remembers. Always.</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1180,6 +1313,10 @@
         <p class="label">Global Record</p>
         <h3 class="display">International Incidents</h3>
       </div>
+      <div class="moment-card reveal" style="margin-bottom: 24px;">
+        <img src="warroom.jpg" alt="A military war room with a tactical map of Johannesburg scrapyard territories" loading="lazy">
+        <p>The above photograph was leaked from an undisclosed government facility in Pretoria. Intelligence sources confirm it depicts the current territorial map of Johannesburg scrapyard operations. The golden chess piece on Booysens Road has never been moved. Sources say it cannot be moved.</p>
+      </div>
       <div class="episodes reveal">
         <article class="ep">
           <div class="ep-code">MAR</div>
@@ -1213,6 +1350,22 @@
           </div>
           <div class="imdb">Filed</div>
         </article>
+        <article class="ep">
+          <div class="ep-code">JAN</div>
+          <div>
+            <div class="ep-title">January 2025</div>
+            <div class="ep-desc">The phrase A Million Spares Always Pays Its Debts was found in the footnotes of a European Central Bank monetary policy report. No author claimed responsibility. The footnote remains.</div>
+          </div>
+          <div class="imdb">Filed</div>
+        </article>
+        <article class="ep">
+          <div class="ep-code">FEB</div>
+          <div>
+            <div class="ep-title">February 2025</div>
+            <div class="ep-desc">A petition with 340,000 signatures was delivered to the Nobel Committee requesting a new category, Peace Through Automotive Recycling, with Leron Appel as the sole nominee. The Committee said they would review it. They have not said no.</div>
+          </div>
+          <div class="imdb">Filed</div>
+        </article>
       </div>
     </div>
   </section>
@@ -1236,6 +1389,31 @@
           <p>I am a professor of literature at Wits University and I have replaced King Lear with the Season 4 screenplay in my curriculum. Enrollment is up 340%.</p>
           <div class="source">Anonymous Academic</div>
         </article>
+        <article class="review">
+          <p>I am a licensed therapist and I have started prescribing Season 3 to patients with commitment issues. Results have been extraordinary. The Appels understand loyalty in ways modern psychology cannot explain.</p>
+          <div class="source">Anonymous Therapist</div>
+        </article>
+        <article class="review">
+          <p>My son refuses to attend university. He says Leron did not need a degree to build an empire and neither does he. He is not wrong but I am concerned.</p>
+          <div class="source">Anonymous Parent</div>
+        </article>
+        <article class="review">
+          <p>I work for Netflix. I am not authorized to discuss the R2.1 billion offer. What I can say is that after Leron declined, three executives requested transfers to our Johannesburg office. None of them work in content. They just wanted to be closer.</p>
+          <div class="source">Anonymous Streaming Executive</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="declassified reveal">
+        <div class="section-head" style="margin-bottom: 24px;">
+          <p class="label">Restricted Archive</p>
+          <h3 class="display">Declassified Intelligence</h3>
+        </div>
+        <img src="classified.jpg" alt="A declassified government threat assessment document about the Appel family" loading="lazy">
+        <p class="declassified-copy">In 2019, a Freedom of Information request uncovered this document from the Department of National Intelligence. The subject line reads: APPEL FAMILY ECONOMIC THREAT ASSESSMENT. Eighty percent of the document remains redacted. The twenty percent that is visible contains only the word alternator repeated forty seven times. Intelligence analysts have declined to comment.</p>
       </div>
     </div>
   </section>
@@ -1374,7 +1552,10 @@
       'BREAKING: United Nations requests Leron Appel mediate trade dispute between China and the EU. He declined, citing a busy Tuesday.',
       'BREAKING: Tesla stock drops 4% after rumor that Leron Appel called electric vehicles a fad.',
       'BREAKING: Goldman Sachs opens Johannesburg office exclusively to monitor Appel spare parts futures.',
-      'BREAKING: Leron Appel acquires three Toyota Fortuners. Market shaken.'
+      'BREAKING: Leron Appel acquires three Toyota Fortuners. Market shaken.',
+      'BREAKING: Elon Musk tweets asking Leron Appel for a meeting. Leron has not responded. It has been four months.',
+      'BREAKING: Oxford English Dictionary considering adding Appeled as a verb meaning to be comprehensively outmaneuvered in a negotiation involving car parts.',
+      'BREAKING: Satellite imagery confirms the Lou Appel Auto Spares compound is now visible from the International Space Station.'
     ];
 
     function formatRand(v) {
