@@ -139,6 +139,57 @@
       font-size: 17px;
     }
 
+    .warning-list {
+      text-align: left;
+      max-width: 640px;
+      margin: 0 auto 20px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(12,12,14,0.85);
+      color: #e2e2e9;
+      display: grid;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .warning-list div::before {
+      content: '⚠';
+      color: var(--gold);
+      margin-right: 8px;
+    }
+
+    .load-gate {
+      max-width: 640px;
+      margin: 0 auto 18px;
+      text-align: left;
+    }
+
+    .load-text {
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .load-bar {
+      border: 1px solid var(--line);
+      background: rgba(10,10,10,0.8);
+      border-radius: 999px;
+      height: 12px;
+      overflow: hidden;
+    }
+
+    .load-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(120deg, var(--gold), var(--crimson-bright));
+      box-shadow: 0 0 16px rgba(199,164,90,0.35);
+      transition: width 260ms ease;
+    }
+
     .btn {
       border: 0;
       cursor: pointer;
@@ -726,6 +777,30 @@
 
     .floating-totem:hover { transform: translateY(-2px); }
 
+    .easter-banner {
+      position: fixed;
+      left: 50%;
+      top: 24px;
+      transform: translateX(-50%);
+      z-index: 1200;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(199,164,90,0.6);
+      background: rgba(12,12,14,0.95);
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+    }
+
+    .gold-flash {
+      animation: yardFlash 520ms ease;
+    }
+
     @keyframes heroLoad {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
@@ -746,6 +821,12 @@
     @keyframes glowLine {
       0%, 100% { opacity: 0.35; }
       50% { opacity: 1; }
+    }
+
+    @keyframes yardFlash {
+      0% { filter: brightness(1) saturate(1); }
+      35% { filter: brightness(1.22) saturate(1.28) sepia(0.18) hue-rotate(8deg); }
+      100% { filter: brightness(1) saturate(1); }
     }
 
     @media (max-width: 1024px) {
@@ -778,8 +859,17 @@
     <div class="splash-card">
       <div class="rating-line">TV MA | Contains, Graphic Gearbox Negotiations, Intense Alternator Drama, Brief Nudity, Stripped Vehicles Only</div>
       <h1 class="display warning-title">Viewer Discretion Advised</h1>
-      <p class="warning-copy">By entering, you acknowledge that the economy of Johannesburg is balanced on one yard, one bloodline, and one terrifyingly well organized shelf of Toyota mirrors.</p>
-      <button class="btn btn-main" id="enterSite">I Accept the Terms of the Scrapyard</button>
+      <p class="warning-copy">You are entering a registered narrative hazard zone where legacy, torque, and succession law collapse into one jurisdiction.</p>
+      <div class="warning-list">
+        <div>This content has been banned in 14 countries.</div>
+        <div>The International Court of Justice has been notified of your viewing.</div>
+        <div>Any resemblance to normal television standards is denied by all involved parties.</div>
+      </div>
+      <div class="load-gate" id="loadGate">
+        <div class="load-text" id="loadText">Encrypting your identity 0%</div>
+        <div class="load-bar"><div class="load-fill" id="loadFill"></div></div>
+      </div>
+      <button class="btn btn-main" id="enterSite" style="display:none;">I Accept the Terms of the Scrapyard</button>
       <p class="tiny-note">HBO and its affiliates have no idea this exists.</p>
     </div>
   </div>
@@ -850,25 +940,25 @@
         <article class="cast-card">
           <span class="status">DECEASED</span>
           <h4>Max Appel, The Blacksmith</h4>
-          <p>Before there were spares, there was iron. Max Appel did not just buy the land. He forged the dynasty.</p>
+          <p>Before there were spares, there was iron. Max did not buy land. He conquered it in single combat with the previous owner.</p>
           <p>Season 1 only. The ancestor whose hammer echoes in every quotation.</p>
         </article>
         <article class="cast-card">
           <span class="status">DECEASED</span>
           <h4>Lou Appel, The Gravedigger</h4>
-          <p>He looked upon a field of wrecked vehicles and saw not death, but destiny. The skull and crossbones were a promise.</p>
+          <p>He looked upon a field of wrecked vehicles and saw not death, but destiny. The South African government classified him as an independent economic zone.</p>
           <p>Seasons 1 to 3. Passed February 1982. The yard never forgot his voice.</p>
         </article>
         <article class="cast-card">
           <span class="status">RETIRED</span>
           <h4>Raymond Appel, The Regent</h4>
-          <p>When the throne sat empty, Raymond did not mourn. He incorporated. PTY Ltd.</p>
+          <p>When the throne sat empty, Raymond restructured the company with the ruthlessness of a man who once arm wrestled a tow truck driver for a catalytic converter and won.</p>
           <p>Seasons 1 to 4. Formed Lou Appel's Auto Spares TVL PTY Ltd in January 1983.</p>
         </article>
         <article class="cast-card">
           <span class="status">RULING</span>
           <h4>Leron Appel, The Heir</h4>
-          <p>2014. The year the keys changed hands. The year blood proved thicker than gearbox oil.</p>
+          <p>2014. The year the keys changed hands. Leron is the most powerful man south of the equator whose name appears on zero Forbes lists, which is itself suspicious.</p>
           <p>Seasons 3 to present. Current king of 233 Booysens Road, corner Webber Street, Selby, Johannesburg.</p>
         </article>
       </div>
@@ -902,7 +992,7 @@
           <div class="ep-code">S4E3</div>
           <div>
             <div class="ep-title">The Stripping</div>
-            <div class="ep-desc">The most talked about episode of the season. Three vehicles enter the yard. None leave whole.</div>
+            <div class="ep-desc">The most talked about episode of the season. Three vehicles enter the yard. None leave whole. This episode caused 47 formal complaints to the South African Broadcasting Authority. All 47 complainants later admitted it was the greatest television they had ever seen.</div>
           </div>
           <div class="imdb">IMDb 9.9</div>
         </article>
@@ -921,6 +1011,14 @@
             <div class="ep-desc">Season finale. A customer needs a part that does not exist. Leron descends into the deepest section of the yard.</div>
           </div>
           <div class="imdb">IMDb 9.9</div>
+        </article>
+        <article class="ep">
+          <div class="ep-code">S4E6</div>
+          <div>
+            <div class="ep-title">The Reckoning</div>
+            <div class="ep-desc">Leron discovers a 1984 Mercedes 230E in the back of the yard that Lou himself stripped but never finished. Inside the glove box: a letter. The contents have never been disclosed. The crew refused to discuss what happened during filming. The director quit the industry.</div>
+          </div>
+          <div class="imdb">IMDb 10.0</div>
         </article>
       </div>
     </div>
@@ -949,10 +1047,85 @@
           <p>The skull and crossbones sigil is more terrifying than any dragon budget.</p>
           <div class="source">Vanity Fair</div>
         </article>
+        <article class="review">
+          <p>I watched Episode 3 and immediately called my father. We talked for four hours. He now wants to open a scrapyard.</p>
+          <div class="source">Financial Times</div>
+        </article>
+        <article class="review">
+          <p>My marriage ended because my wife said she was tired of me comparing everything to the Appel Dynasty. She was right to leave. This show is better than my marriage was.</p>
+          <div class="source">Anonymous Verified Viewer</div>
+        </article>
       </div>
       <div class="scores reveal">
         <div class="score">Rotten Tomatoes Critics <strong>98%</strong></div>
         <div class="score">Rotten Tomatoes Audience <strong>100%</strong></div>
+        <div class="score">Winner of 11 Emmy Awards including Outstanding Achievement in Making People Care About Alternators <strong>11</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="label">Global Record</p>
+        <h3 class="display">International Incidents</h3>
+      </div>
+      <div class="episodes reveal">
+        <article class="ep">
+          <div class="ep-code">MAR</div>
+          <div>
+            <div class="ep-title">March 2024</div>
+            <div class="ep-desc">Japanese parliament suspended for 3 hours after a screening of S4E3 in the members lounge.</div>
+          </div>
+          <div class="imdb">Filed</div>
+        </article>
+        <article class="ep">
+          <div class="ep-code">JUN</div>
+          <div>
+            <div class="ep-title">June 2024</div>
+            <div class="ep-desc">A man in Brazil legally changed his name to Leron Appel. The real Leron sent a cease and desist. The man framed it.</div>
+          </div>
+          <div class="imdb">Filed</div>
+        </article>
+        <article class="ep">
+          <div class="ep-code">AUG</div>
+          <div>
+            <div class="ep-title">August 2024</div>
+            <div class="ep-desc">The phrase Home of a Million Spares was found spray painted on the Berlin Wall memorial. No suspects. No regrets.</div>
+          </div>
+          <div class="imdb">Filed</div>
+        </article>
+        <article class="ep">
+          <div class="ep-code">NOV</div>
+          <div>
+            <div class="ep-title">November 2024</div>
+            <div class="ep-desc">Netflix offered R2.1 billion for streaming rights. Leron declined. Quote: They could not meet the alternator requirements.</div>
+          </div>
+          <div class="imdb">Filed</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="label">Private Depositions</p>
+        <h3 class="display">Viewer Confessions</h3>
+      </div>
+      <div class="reviews reveal">
+        <article class="review">
+          <p>I am a sitting judge in Gauteng and I have watched Season 3 fourteen times. I quote Leron in my rulings. No one has noticed yet.</p>
+          <div class="source">Anonymous Judicial Office</div>
+        </article>
+        <article class="review">
+          <p>I proposed to my girlfriend at Lou Appel Auto Spares. She said no. I went back the next day and bought a starter motor. It was the better investment.</p>
+          <div class="source">Anonymous Customer</div>
+        </article>
+        <article class="review">
+          <p>I am a professor of literature at Wits University and I have replaced King Lear with the Season 4 screenplay in my curriculum. Enrollment is up 340%.</p>
+          <div class="source">Anonymous Academic</div>
+        </article>
       </div>
     </div>
   </section>
@@ -1001,7 +1174,7 @@
       <div class="ticker-shell reveal">
         <div class="ticker-head">
           <span>Selby Exchange Floor</span>
-          <span class="breaking" id="breakingText">BREAKING, Leron Appel acquires three Toyota Fortuners. Market shaken.</span>
+          <span class="breaking" id="breakingText">BREAKING: United Nations requests Leron Appel mediate trade dispute between China and the EU. He declined, citing a busy Tuesday.</span>
         </div>
         <div class="ticker-track" id="tickerTrack"></div>
       </div>
@@ -1051,10 +1224,13 @@
   </footer>
 
   <button class="floating-totem" id="totem" aria-label="Secret sigil">§</button>
+  <div class="easter-banner" id="easterBanner">HIS NAME WAS SPOKEN. THE YARD ACKNOWLEDGES YOU.</div>
 
   <script>
     const splash = document.getElementById('splash');
     const enterSite = document.getElementById('enterSite');
+    const loadText = document.getElementById('loadText');
+    const loadFill = document.getElementById('loadFill');
     const typedTagline = document.getElementById('typedTagline');
     const heroSecret = document.getElementById('heroSecret');
     const tickerTrack = document.getElementById('tickerTrack');
@@ -1064,6 +1240,7 @@
     const quizResult = document.getElementById('quizResult');
     const bioBox = document.getElementById('bioBox');
     const totem = document.getElementById('totem');
+    const easterBanner = document.getElementById('easterBanner');
 
     const taglineText = 'When you play the Game of Spares, you win, or you get stripped for parts.';
 
@@ -1072,7 +1249,7 @@
       lou: 'Lou Appel founded Lou Appel\'s Motor Graveyard with a skull and crossbones standard. Passed in February 1982, still quoted in procurement meetings.',
       raymond: 'Raymond Appel formed Lou Appel\'s Auto Spares TVL PTY Ltd in January 1983 and ruled until 2014 with lawful precision and legendary paperwork.',
       leron: 'Leron Appel assumed command in 2014 and currently governs the scrapyard throne at Booysens and Webber with absolute inventory awareness.',
-      chris: 'Chris Wessels, The Mechanic. Loyal retainer to two generations. Built the great hall with his own hands and still hears weak starter motors from twenty paces.'
+      chris: 'Chris Wessels. Loyal retainer who once held the yard alone for 72 hours during a supplier revolt. When asked how, he said only: I had the right socket wrench.'
     };
 
     const tickerData = [
@@ -1084,10 +1261,10 @@
     ];
 
     const breakingPool = [
-      'BREAKING, Leron Appel acquires three Toyota Fortuners. Market shaken.',
-      'BREAKING, whisper confirms hidden shelf of rare starter motors. Traders panic.',
-      'BREAKING, one immaculate Hilux nose cut enters Selby. Analysts speechless.',
-      'BREAKING, demand for Corolla mirrors reaches dynasty emergency level.'
+      'BREAKING: United Nations requests Leron Appel mediate trade dispute between China and the EU. He declined, citing a busy Tuesday.',
+      'BREAKING: Tesla stock drops 4% after rumor that Leron Appel called electric vehicles a fad.',
+      'BREAKING: Goldman Sachs opens Johannesburg office exclusively to monitor Appel spare parts futures.',
+      'BREAKING: Leron Appel acquires three Toyota Fortuners. Market shaken.'
     ];
 
     function formatRand(v) {
@@ -1120,6 +1297,21 @@
       }, 28);
     }
 
+    function primeSplashGate() {
+      let progress = 0;
+      const timer = setInterval(() => {
+        progress += Math.floor(Math.random() * 13) + 6;
+        if (progress > 100) progress = 100;
+        loadFill.style.width = `${progress}%`;
+        loadText.textContent = `Encrypting your identity ${progress}%`;
+        if (progress >= 100) {
+          clearInterval(timer);
+          loadText.textContent = 'Identity encryption complete';
+          enterSite.style.display = 'inline-block';
+        }
+      }, 280);
+    }
+
     enterSite.addEventListener('click', () => {
       splash.classList.add('hidden');
       typeTagline();
@@ -1136,10 +1328,12 @@
 
       const score = Number(q1.value) + Number(q2.value);
 
-      if (score >= 5) {
-        quizResult.textContent = 'You have the blood of the Appels in you. Report to Booysens Road immediately.';
+      if (score === 6) {
+        quizResult.textContent = 'The blood of the Appels flows through you. A courier has been dispatched to your location with a ceremonial wrench and a binding employment contract. Do not resist.';
+      } else if (score <= 1) {
+        quizResult.textContent = 'You have been found unworthy. Your photograph has been distributed to all Appel affiliated yards. You are banned from Booysens Road for three generations.';
       } else {
-        quizResult.textContent = 'Verdict, not worthy. Please begin with one thousand hours of inventory counting.';
+        quizResult.textContent = 'You are under observation. Report to aisle seven for supervised inventory duty until your instincts improve.';
       }
     });
 
@@ -1174,12 +1368,25 @@
 
     const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
     const entered = [];
+    const leronEntered = [];
+    const leronCode = ['l','e','r','o','n'];
 
     window.addEventListener('keydown', (e) => {
       entered.push(e.key);
       entered.splice(-konami.length - 1, entered.length - konami.length);
       if (entered.join(',').toLowerCase() === konami.join(',').toLowerCase()) {
         alert('Dynasty protocol accepted. You now hold temporary rights to aisle seven, bin twelve.');
+      }
+
+      leronEntered.push(String(e.key).toLowerCase());
+      leronEntered.splice(-leronCode.length - 1, leronEntered.length - leronCode.length);
+      if (leronEntered.join(',') === leronCode.join(',')) {
+        document.body.classList.add('gold-flash');
+        easterBanner.style.opacity = '1';
+        setTimeout(() => {
+          document.body.classList.remove('gold-flash');
+          easterBanner.style.opacity = '0';
+        }, 1100);
       }
     });
 
@@ -1197,7 +1404,8 @@
       breakingText.textContent = breakingPool[Math.floor(Math.random() * breakingPool.length)];
     }, 5400);
 
-    typeTagline();
+    breakingText.textContent = breakingPool[0];
+    primeSplashGate();
 
     console.log('Dynasty archive loaded. If you are reading this, you are either a developer or a procurement prophet.');
   </script>
