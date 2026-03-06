@@ -96,6 +96,8 @@
       background: rgba(10,10,10,0.98);
       padding: 24px;
       transition: opacity 500ms ease, visibility 500ms ease;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .splash.hidden {
@@ -925,6 +927,24 @@
       .motto-panel { gap: 6px; }
       .motto-chip { font-size: 12px; }
       .ticker-track { gap: 20px; }
+      .splash-card { padding: 20px 14px; }
+      .warning-title { font-size: 24px; }
+      .warning-copy { font-size: 13px; margin-bottom: 14px; }
+      .warning-list { padding: 10px 12px; font-size: 12px; gap: 5px; margin-bottom: 12px; }
+      .rating-line { font-size: 10px; padding: 6px 10px; gap: 6px; }
+      .load-gate { margin-bottom: 12px; }
+      .load-text { font-size: 11px; }
+      .btn-main { padding: 12px 22px; font-size: 14px; }
+      .tiny-note { font-size: 10px; margin-top: 12px; }
+    }
+
+    @media (max-width: 320px) {
+      .splash-card { padding: 16px 10px; }
+      .warning-title { font-size: 20px; }
+      .warning-copy { font-size: 12px; margin-bottom: 10px; }
+      .warning-list { padding: 8px 10px; font-size: 11px; }
+      .rating-line { font-size: 9px; padding: 5px 8px; flex-wrap: wrap; text-align: center; }
+      .load-bar { height: 8px; }
     }
   </style>
 </head>
