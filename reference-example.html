@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>An Important Message Regarding the Kuperman Brothers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Manrope:wght@200;300;400;500;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050506;
+      --surface: #0c0c0e;
+      --surface-2: #121214;
+      --border: rgba(255,255,255,0.06);
+      --text: #f5f5f7;
+      --text-dim: #86868b;
+      --red: #e53935;
+      --red-soft: rgba(229,57,53,0.1);
+      --red-glow: rgba(229,57,53,0.3);
+      --gold: #d4a853;
+      --green: #4caf50;
+      --green-soft: rgba(76,175,80,0.1);
+      --blue: #2196f3;
+      --blue-soft: rgba(33,150,243,0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Manrope', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .splash {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+
+    .splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .splash-warning { font-size: 4rem; margin-bottom: 2rem; animation: pulse-icon 2s ease-in-out infinite; }
+    @keyframes pulse-icon { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+    .splash h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      margin-bottom: 1rem;
+      color: var(--red);
+    }
+
+    .splash p { font-size: 1.1rem; color: var(--text-dim); max-width: 500px; margin-bottom: 3rem; }
+
+    .enter-btn {
+      padding: 1.25rem 3rem;
+      background: var(--red);
+      border: none;
+      border-radius: 100px;
+      color: white;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .enter-btn:hover { transform: translateY(-2px); box-shadow: 0 20px 40px var(--red-glow); }
+
+    .splash-disclaimer { position: absolute; bottom: 2rem; font-size: 0.7rem; color: var(--text-dim); opacity: 0.5; }
+
+    .audio-controls {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .audio-controls.visible { opacity: 1; }
+
+    .audio-controls button {
+      width: 36px;
+      height: 36px;
+      background: var(--red-soft);
+      border: none;
+      border-radius: 50%;
+      color: var(--red);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .audio-controls span { font-size: 0.75rem; color: var(--text-dim); }
+
+    /* Live Tracker */
+    .live-tracker {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      z-index: 9999;
+      padding: 1rem 1.5rem;
+      background: var(--surface-2);
+      border: 1px solid var(--red);
+      border-radius: 16px;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .live-tracker.visible { opacity: 1; }
+
+    .live-tracker-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--red); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+    .live-tracker-label::before { content: ''; width: 8px; height: 8px; background: var(--red); border-radius: 50%; animation: blink 1s ease-in-out infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .live-tracker-value { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; }
+    .live-tracker-status { font-size: 0.7rem; color: var(--red); margin-top: 0.25rem; }
+
+    /* Countdown */
+    .countdown-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9998;
+      padding: 0.5rem 2rem;
+      background: var(--gold);
+      color: var(--bg);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      opacity: 0;
+      transform: translateY(-100%);
+      transition: all 0.5s;
+    }
+
+    .countdown-bar.visible { opacity: 1; transform: translateY(0); }
+    .countdown-number { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+
+    .gradient-bg {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 100% 70% at 50% 0%, rgba(229,57,53,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 60% at 80% 80%, rgba(229,57,53,0.03) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.02;
+      pointer-events: none;
+      z-index: 9997;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 4rem); position: relative; z-index: 1; }
+    .display { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; letter-spacing: -0.03em; line-height: 1.0; }
+    .label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--red); }
+
+    .locked-section { display: none; }
+    .locked-section.unlocked { display: block; animation: unlockReveal 0.8s ease-out; }
+    @keyframes unlockReveal { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--red-glow) 0%, transparent 70%);
+      filter: blur(80px);
+      opacity: 0.25;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 1.25rem;
+      background: var(--red-soft);
+      border: 1px solid rgba(229,57,53,0.3);
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--red);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 1s ease-out 0.1s forwards;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      max-width: 1000px;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 1s ease-out 0.3s forwards;
+      cursor: pointer;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 400;
+      color: var(--text-dim);
+      max-width: 700px;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 1s ease-out 0.5s forwards;
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+    section { padding: clamp(5rem, 12vw, 8rem) 0; }
+    .section-header { text-align: center; max-width: 800px; margin: 0 auto 4rem; }
+    .section-title { font-size: clamp(2rem, 5vw, 3.5rem); margin-top: 1rem; margin-bottom: 1.5rem; }
+    .section-desc { font-size: 1.05rem; color: var(--text-dim); line-height: 1.8; }
+
+    /* Voicemail */
+    .voicemail-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .voicemail-box {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2.5rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      text-align: center;
+    }
+
+    .voicemail-header { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; }
+
+    .voicemail-player {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .play-btn {
+      width: 64px;
+      height: 64px;
+      background: var(--red);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      transition: transform 0.2s;
+    }
+
+    .play-btn:hover { transform: scale(1.05); }
+
+    .voicemail-info { text-align: left; }
+    .voicemail-info strong { display: block; font-size: 1rem; margin-bottom: 0.25rem; }
+    .voicemail-info span { font-size: 0.8rem; color: var(--text-dim); }
+
+    .voicemail-transcript {
+      text-align: left;
+      padding: 1.5rem;
+      background: var(--surface);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+      font-style: italic;
+      display: none;
+    }
+
+    .voicemail-transcript.visible { display: block; animation: fadeUp 0.5s ease-out; }
+
+    /* Compatibility Calculator */
+    .calculator-section { background: var(--bg); }
+
+    .calculator-box {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 3rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+    }
+
+    .calculator-inputs {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .calculator-input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .calculator-input:focus { outline: none; border-color: var(--gold); }
+
+    .calculator-heart { font-size: 2rem; color: var(--red); }
+
+    .calculator-btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--gold);
+      border: none;
+      border-radius: 12px;
+      color: var(--bg);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .calculator-btn:hover { transform: translateY(-2px); }
+
+    .calculator-result {
+      margin-top: 2rem;
+      padding: 2rem;
+      background: var(--bg);
+      border-radius: 16px;
+      text-align: center;
+      display: none;
+    }
+
+    .calculator-result.visible { display: block; animation: fadeUp 0.5s ease-out; }
+    .calculator-result.error { border: 2px solid var(--red); background: var(--red-soft); }
+
+    .result-percentage {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-percentage.error-text { color: var(--red); font-size: 2rem; }
+    .result-message { font-size: 0.9rem; color: var(--text-dim); }
+
+    /* Dating Profile Builder */
+    .profile-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .profile-builder {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .profile-card {
+      padding: 2.5rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+    }
+
+    .profile-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-card h4 span { color: var(--gold); }
+    .profile-card h4 span.silver { color: #a8a9ad; }
+
+    .profile-subtitle { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 1.5rem; }
+
+    .profile-field { margin-bottom: 1.25rem; }
+    .profile-field label { display: block; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+
+    .profile-field select, .profile-field input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    .profile-output {
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background: var(--surface);
+      border-radius: 12px;
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* Historical Precedents */
+    .precedents-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .precedent {
+      padding: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      text-align: center;
+    }
+
+    .precedent-emoji { font-size: 3rem; margin-bottom: 1rem; }
+    .precedent h4 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .precedent p { font-size: 0.8rem; color: var(--text-dim); }
+    .precedent .verdict { margin-top: 1rem; padding: 0.5rem 1rem; background: var(--green-soft); border-radius: 100px; font-size: 0.7rem; color: var(--green); font-weight: 600; display: inline-block; }
+
+    /* Wedding Registry */
+    .registry-section { background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%); }
+
+    .registry-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .registry-item {
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 2px solid var(--red);
+      border-radius: 16px;
+      text-align: center;
+      position: relative;
+      opacity: 0.6;
+    }
+
+    .registry-item::after {
+      content: 'DENIED';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg);
+      background: var(--red);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: 4px;
+    }
+
+    .registry-item .emoji { font-size: 2rem; margin-bottom: 0.5rem; }
+    .registry-item h5 { font-size: 0.85rem; margin-bottom: 0.25rem; }
+    .registry-item p { font-size: 0.7rem; color: var(--text-dim); }
+
+    /* Fan Mail */
+    .fanmail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .fanmail {
+      padding: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+
+    .fanmail-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+    .fanmail-avatar { width: 48px; height: 48px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+    .fanmail-meta strong { display: block; font-size: 0.9rem; }
+    .fanmail-meta span { font-size: 0.75rem; color: var(--text-dim); }
+    .fanmail-body { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; font-style: italic; }
+
+    /* Sightings Map */
+    .map-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .map-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2rem;
+    }
+
+    .map-visual {
+      height: 400px;
+      background: 
+        radial-gradient(circle at 30% 40%, var(--red-soft) 0%, transparent 20%),
+        radial-gradient(circle at 35% 42%, var(--red-soft) 0%, transparent 18%),
+        radial-gradient(circle at 60% 30%, var(--red-soft) 0%, transparent 15%),
+        radial-gradient(circle at 62% 32%, var(--red-soft) 0%, transparent 12%),
+        radial-gradient(circle at 45% 60%, var(--red-soft) 0%, transparent 20%),
+        radial-gradient(circle at 47% 62%, var(--red-soft) 0%, transparent 17%),
+        linear-gradient(var(--surface), var(--surface));
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .map-pin {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: var(--red);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      animation: pin-pulse 2s ease-in-out infinite;
+    }
+
+    .map-pin::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .map-pin.rick { top: 35%; left: 28%; animation-delay: 0s; }
+    .map-pin.jeff { top: 38%; left: 32%; animation-delay: 0.5s; }
+
+    @keyframes pin-pulse { 0%, 100% { transform: rotate(-45deg) scale(1); } 50% { transform: rotate(-45deg) scale(1.1); } }
+
+    .map-legend {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .legend-dot.rick { background: var(--gold); }
+    .legend-dot.jeff { background: #a8a9ad; }
+
+    .sightings-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .sighting {
+      padding: 1rem 1.5rem;
+      background: var(--surface);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .sighting-icon { font-size: 1.5rem; }
+    .sighting-info strong { display: block; font-size: 0.85rem; }
+    .sighting-info span { font-size: 0.75rem; color: var(--text-dim); }
+
+    /* Intervention Letter Generator */
+    .letter-section { background: var(--bg); }
+
+    .letter-generator {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .letter-form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .letter-form input, .letter-form select {
+      padding: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    .letter-form input:focus, .letter-form select:focus { outline: none; border-color: var(--gold); }
+
+    .generate-btn {
+      grid-column: span 2;
+      padding: 1.25rem;
+      background: var(--gold);
+      border: none;
+      border-radius: 12px;
+      color: var(--bg);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .letter-output {
+      display: none;
+      padding: 3rem;
+      background: #f5f0e6;
+      border-radius: 4px;
+      color: #1a1a1a;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.95rem;
+      line-height: 1.9;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    .letter-output.visible { display: block; animation: fadeUp 0.5s ease-out; }
+
+    .letter-seal {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      width: 80px;
+      height: 80px;
+      background: var(--red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 1.2;
+      box-shadow: 0 4px 15px rgba(229,57,53,0.4);
+    }
+
+    .letter-output h4 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1.5rem; text-align: center; }
+    .letter-output .date { text-align: right; margin-bottom: 2rem; font-size: 0.85rem; }
+    .letter-output .greeting { margin-bottom: 1rem; }
+    .letter-output .body { margin-bottom: 1.5rem; }
+    .letter-output .signature { margin-top: 2rem; }
+    .letter-output .signature-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-style: italic; }
+
+    .print-btn {
+      margin-top: 1.5rem;
+      padding: 1rem 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Expert Testimonials */
+    .experts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .expert-card {
+      padding: 2.5rem 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      position: relative;
+    }
+
+    .expert-card::before {
+      content: '"';
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      color: var(--gold);
+      opacity: 0.2;
+      position: absolute;
+      top: 1rem;
+      left: 1.5rem;
+      line-height: 1;
+    }
+
+    .expert-quote { font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; font-style: italic; color: var(--text); position: relative; z-index: 1; }
+    .expert-avatar { width: 48px; height: 48px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 0.75rem; }
+    .expert-name { font-size: 0.9rem; font-weight: 600; }
+    .expert-title { font-size: 0.75rem; color: var(--text-dim); }
+
+    /* CTA and Footer */
+    .cta-section {
+      text-align: center;
+      padding: 8rem 2rem;
+      background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(212,168,83,0.06) 0%, transparent 60%), var(--bg);
+    }
+
+    .cta-title { font-size: clamp(2rem, 5vw, 4rem); margin-bottom: 1.5rem; }
+    .cta-desc { font-size: 1.1rem; color: var(--text-dim); max-width: 650px; margin: 0 auto 3rem; }
+
+    .cta-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+    .cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.1rem 2.5rem;
+      border-radius: 100px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: transform 0.3s;
+    }
+
+    .cta-link:hover { transform: translateY(-2px); }
+    .cta-link.gold { background: var(--gold); color: var(--bg); }
+    .cta-link.outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+
+    footer {
+      padding: 4rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 600; color: var(--red); margin-bottom: 0.5rem; }
+    .footer-tagline { font-size: 0.75rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2rem; }
+    .footer-disclaimer { font-size: 0.7rem; color: var(--text-dim); opacity: 0.5; max-width: 550px; margin: 0 auto; line-height: 1.7; }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1024px) {
+      .profile-builder, .precedents-grid, .registry-grid, .fanmail-grid, .sightings-list, .experts-grid { grid-template-columns: 1fr; }
+      .calculator-inputs { grid-template-columns: 1fr; }
+      .calculator-heart { display: none; }
+      .letter-form { grid-template-columns: 1fr; }
+      .letter-form .generate-btn { grid-column: span 1; }
+      .live-tracker { display: none; }
+    }
+
+    @media (max-width: 640px) {
+      .registry-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      .letter-output, .letter-output * { visibility: visible; }
+      .letter-output { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; }
+      .print-btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bgMusic" loop><source src="theme.mp3" type="audio/mpeg"></audio>
+
+  <!-- Splash -->
+  <div class="splash" id="splash">
+    <div class="splash-warning">⚠️</div>
+    <h1>CONTENT WARNING</h1>
+    <p>You are about to access classified information regarding the Kuperman Brothers. This content contains music, interactive elements, and truths that cannot be unlearned.</p>
+    <button class="enter-btn" id="enterBtn">I Understand the Risks</button>
+    <p class="splash-disclaimer">By clicking, you agree that siblings should not marry each other</p>
+  </div>
+
+  <!-- Fixed Elements -->
+  <div class="countdown-bar" id="countdownBar">
+    Days without a Kuperman engagement announcement: <span class="countdown-number" id="dayCount">11,847</span>
+  </div>
+
+  <div class="live-tracker" id="liveTracker">
+    <div class="live-tracker-label">Live Separation Distance</div>
+    <div class="live-tracker-value"><span id="distanceValue">14</span> feet</div>
+    <div class="live-tracker-status">⚠️ DANGEROUSLY CLOSE</div>
+  </div>
+
+  <div class="audio-controls" id="audioControls">
+    <button id="muteBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+      </svg>
+    </button>
+    <span>Theme Music</span>
+  </div>
+
+  <div class="gradient-bg"></div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-badge">Public Service Announcement</div>
+    <h1 class="display hero-title" id="secretTrigger">Rick and Jeff Kuperman Should Not Marry Each Other</h1>
+    <p class="hero-subtitle">A concerned community's formal request that the Kuperman Brothers seek romantic partners outside of their immediate family.</p>
+  </section>
+
+  <!-- Voicemail from Mom -->
+  <section class="voicemail-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Incoming Message</p>
+        <h2 class="display section-title">Voicemail from Mom</h2>
+      </div>
+      <div class="voicemail-box reveal">
+        <div class="voicemail-header">New Voicemail • Today at 9:47 AM</div>
+        <div class="voicemail-player">
+          <button class="play-btn" id="playVoicemail">▶</button>
+          <div class="voicemail-info">
+            <strong>Mom Kuperman</strong>
+            <span>Duration: 2:34</span>
+          </div>
+        </div>
+        <div class="voicemail-transcript" id="voicemailTranscript">
+          "Hi boys, it's Mom. Listen, I'm calling because your Aunt Sheila asked me again when you're going to settle down and find nice partners. And I said 'Sheila, they're very busy with the Broadway and the dancing' but she made a face, you know the face she makes. Anyway, I was thinking, there's a lovely girl at my book club, recently divorced, very accomplished, she's a dental hygienist. Rick, she'd be perfect for you. Or Jeff. Either one. Just... someone. Who isn't each other. Not that I think you would—I mean, that would be crazy—but people talk, you know? You're always together. It's nice! Brotherly! But maybe... separately sometimes? With dates? Anyway, call me back. And eat something, you're too thin. Both of you. Love you. This is Mom. Bye."
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compatibility Calculator -->
+  <section class="calculator-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Scientific Analysis</p>
+        <h2 class="display section-title">Compatibility Calculator</h2>
+        <p class="section-desc">Our patented algorithm determines romantic compatibility between any two people.</p>
+      </div>
+      <div class="calculator-box reveal">
+        <div class="calculator-inputs">
+          <input type="text" class="calculator-input" id="person1" placeholder="First Person">
+          <span class="calculator-heart">💕</span>
+          <input type="text" class="calculator-input" id="person2" placeholder="Second Person">
+        </div>
+        <button class="calculator-btn" id="calculateBtn">Calculate Compatibility</button>
+        <div class="calculator-result" id="calcResult">
+          <div class="result-percentage" id="resultPercent">87%</div>
+          <div class="result-message" id="resultMessage">High compatibility! This could work.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dating Profile Builder -->
+  <section class="profile-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Help Them Out</p>
+        <h2 class="display section-title">Dating Profile Builder</h2>
+        <p class="section-desc">Let's help Rick and Jeff craft dating profiles that attract non-siblings.</p>
+      </div>
+      <div class="profile-builder reveal">
+        <div class="profile-card">
+          <h4>Build <span>Rick's</span> Profile</h4>
+          <p class="profile-subtitle">Help the superior Kuperman find love</p>
+          <div class="profile-field">
+            <label>Looking for</label>
+            <select id="rickLooking">
+              <option>Someone who isn't my brother</option>
+              <option>A fellow Harvard grad</option>
+              <option>Anyone with good choreography opinions</option>
+              <option>A person who appreciates moral psychology</option>
+            </select>
+          </div>
+          <div class="profile-field">
+            <label>My ideal first date</label>
+            <select id="rickDate">
+              <option>Watching me receive a Tony Award</option>
+              <option>A dance class (I'll lead)</option>
+              <option>Explaining why I'm better than Jeff</option>
+              <option>Something that doesn't involve my brother</option>
+            </select>
+          </div>
+          <div class="profile-field">
+            <label>Deal breaker</label>
+            <select id="rickDeal">
+              <option>Being related to me</option>
+              <option>Disliking The Outsiders</option>
+              <option>Not appreciating my genius</option>
+              <option>Being Jeff</option>
+            </select>
+          </div>
+          <div class="profile-output" id="rickProfile">
+            <strong>Rick, 30s, NYC</strong><br>
+            Tony-nominated choreographer. Harvard grad. 3rd degree black belt. Looking for someone who isn't my brother (specifically). Must appreciate that I'm the more talented Kuperman. Let's create beautiful movement together. No Jeffs.
+          </div>
+        </div>
+        <div class="profile-card">
+          <h4>Build <span class="silver">Jeff's</span> Profile</h4>
+          <p class="profile-subtitle">Help #2 find his #1</p>
+          <div class="profile-field">
+            <label>Looking for</label>
+            <select id="jeffLooking">
+              <option>Anyone who doesn't compare me to Rick</option>
+              <option>Someone who loves paella</option>
+              <option>A Russian literature enthusiast</option>
+              <option>Literally anyone who isn't my brother</option>
+            </select>
+          </div>
+          <div class="profile-field">
+            <label>My ideal first date</label>
+            <select id="jeffDate">
+              <option>Eating paella</option>
+              <option>Discussing Dostoevsky</option>
+              <option>An activity where no one mentions Rick</option>
+              <option>Anything, I'm very flexible</option>
+            </select>
+          </div>
+          <div class="profile-field">
+            <label>Fun fact</label>
+            <select id="jeffFact">
+              <option>I'm equally talented as Rick (sources: me)</option>
+              <option>I went to Princeton (it's just as good)</option>
+              <option>I also have a black belt (same degree)</option>
+              <option>I'm the funnier one (verified)</option>
+            </select>
+          </div>
+          <div class="profile-output" id="jeffProfile">
+            <strong>Jeff, 30s, NYC</strong><br>
+            Choreographer (the other one). Princeton grad. Paella enthusiast. Looking for someone who sees me as a main character, not a supporting role. Bonus points if you don't know who Rick is. (He's my brother. He's fine. This isn't about him.)
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Historical Precedents -->
+  <section>
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Learn from History</p>
+        <h2 class="display section-title">Siblings Who Got It Right</h2>
+        <p class="section-desc">Famous siblings who correctly chose NOT to marry each other.</p>
+      </div>
+      <div class="precedents-grid reveal">
+        <div class="precedent">
+          <div class="precedent-emoji">✈️</div>
+          <h4>The Wright Brothers</h4>
+          <p>Invented human flight. Did not marry each other.</p>
+          <span class="verdict">✓ Correct Decision</span>
+        </div>
+        <div class="precedent">
+          <div class="precedent-emoji">🎾</div>
+          <h4>Venus & Serena Williams</h4>
+          <p>Dominated tennis. Remained unmarried to each other.</p>
+          <span class="verdict">✓ Correct Decision</span>
+        </div>
+        <div class="precedent">
+          <div class="precedent-emoji">🎬</div>
+          <h4>The Coen Brothers</h4>
+          <p>Made incredible films together. Separately married to other people.</p>
+          <span class="verdict">✓ Correct Decision</span>
+        </div>
+        <div class="precedent">
+          <div class="precedent-emoji">🏀</div>
+          <h4>The Ball Brothers</h4>
+          <p>All play basketball. None married to each other.</p>
+          <span class="verdict">✓ Correct Decision</span>
+        </div>
+        <div class="precedent">
+          <div class="precedent-emoji">👔</div>
+          <h4>The Property Brothers</h4>
+          <p>Renovate homes on TV. Live in separate homes. Not married.</p>
+          <span class="verdict">✓ Correct Decision</span>
+        </div>
+        <div class="precedent">
+          <div class="precedent-emoji">💃</div>
+          <h4>The Kuperman Brothers</h4>
+          <p>Choreograph everything. Status: PENDING CONFIRMATION.</p>
+          <span class="verdict" style="background: var(--red-soft); color: var(--red);">⏳ Awaiting Decision</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wedding Registry That Must Never Exist -->
+  <section class="registry-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Forbidden Items</p>
+        <h2 class="display section-title">The Wedding Registry That Must Never Exist</h2>
+        <p class="section-desc">Items that Rick and Jeff will NOT need because they will NOT marry each other.</p>
+      </div>
+      <div class="registry-grid reveal">
+        <div class="registry-item">
+          <div class="emoji">🍳</div>
+          <h5>His & His Aprons</h5>
+          <p>"Rick" and "Not Rick"</p>
+        </div>
+        <div class="registry-item">
+          <div class="emoji">🛏️</div>
+          <h5>California King Bed</h5>
+          <p>For the shared bedroom</p>
+        </div>
+        <div class="registry-item">
+          <div class="emoji">🏠</div>
+          <h5>Joint Mortgage</h5>
+          <p>Brownstone in Brooklyn</p>
+        </div>
+        <div class="registry-item">
+          <div class="emoji">💍</div>
+          <h5>Matching Rings</h5>
+          <p>Engraved "Kuperman²"</p>
+        </div>
+        <div class="registry-item">
+          <div class="emoji">🎂</div>
+          <h5>Wedding Cake Topper</h5>
+          <p>Two grooms dancing</p>
+        </div>
+        <div class="registry-item">
+          <div class="emoji">🧳</div>
+          <h5>Honeymoon Package</h5>
+          <p>Venice for two</p>
+        </div>
+        <div class="registry-item">
+          <div class="emoji">📸</div>
+          <h5>Family Portrait</h5>
+          <p>"The Kuperman-Kupermans"</p>
+        </div>
+        <div class="registry-item">
+          <div class="emoji">🎁</div>
+          <h5>Dyson Vacuum</h5>
+          <p>Every registry has one</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fan Mail -->
+  <section>
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">From Around the World</p>
+        <h2 class="display section-title">Concerned Fan Mail</h2>
+      </div>
+      <div class="fanmail-grid reveal">
+        <div class="fanmail">
+          <div class="fanmail-header">
+            <div class="fanmail-avatar">🇯🇵</div>
+            <div class="fanmail-meta">
+              <strong>Yuki T.</strong>
+              <span>Tokyo, Japan</span>
+            </div>
+          </div>
+          <div class="fanmail-body">"I watched The Outsiders on Broadway and cried. Then I researched the choreographers and cried for different reasons. Please find other people to love. Japan supports you."</div>
+        </div>
+        <div class="fanmail">
+          <div class="fanmail-header">
+            <div class="fanmail-avatar">🇧🇷</div>
+            <div class="fanmail-meta">
+              <strong>Carlos M.</strong>
+              <span>São Paulo, Brazil</span>
+            </div>
+          </div>
+          <div class="fanmail-body">"My grandmother saw your names together and assumed you were married. I had to explain you're brothers. She still doesn't believe me. Please get separate girlfriends immediately."</div>
+        </div>
+        <div class="fanmail">
+          <div class="fanmail-header">
+            <div class="fanmail-avatar">🇦🇺</div>
+            <div class="fanmail-meta">
+              <strong>Sarah K.</strong>
+              <span>Melbourne, Australia</span>
+            </div>
+          </div>
+          <div class="fanmail-body">"Big fans of your work. Quick question: have you considered dating? Separately? There are 8 billion people on Earth and only one of them is your brother. The math is in your favor."</div>
+        </div>
+        <div class="fanmail">
+          <div class="fanmail-header">
+            <div class="fanmail-avatar">🇨🇦</div>
+            <div class="fanmail-meta">
+              <strong>Jean-Pierre L.</strong>
+              <span>Montreal, Canada</span>
+            </div>
+          </div>
+          <div class="fanmail-body">"As fellow Canadians, I feel I can say this: you're making us look weird. Please date other people. Tim Hortons is offering to set you up with eligible singles. This is a real offer."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sightings Map -->
+  <section class="map-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Live Intelligence</p>
+        <h2 class="display section-title">Kuperman Sightings Map</h2>
+        <p class="section-desc">Real-time tracking of how suspiciously close together they are at all times.</p>
+      </div>
+      <div class="map-container reveal">
+        <div class="map-visual">
+          <div class="map-pin rick" style="top: 35%; left: 28%;"></div>
+          <div class="map-pin jeff" style="top: 38%; left: 32%;"></div>
+        </div>
+        <div class="map-legend">
+          <div class="legend-item"><div class="legend-dot rick"></div> Rick's Location</div>
+          <div class="legend-item"><div class="legend-dot jeff"></div> Jeff's Location</div>
+        </div>
+        <div class="sightings-list">
+          <div class="sighting">
+            <div class="sighting-icon">📍</div>
+            <div class="sighting-info">
+              <strong>Broadway Dance Center</strong>
+              <span>Both spotted, 3 feet apart • 2 hours ago</span>
+            </div>
+          </div>
+          <div class="sighting">
+            <div class="sighting-icon">📍</div>
+            <div class="sighting-info">
+              <strong>Joe's Pizza, Greenwich Village</strong>
+              <span>Sharing a booth • Yesterday</span>
+            </div>
+          </div>
+          <div class="sighting">
+            <div class="sighting-icon">📍</div>
+            <div class="sighting-info">
+              <strong>Unknown Rehearsal Studio</strong>
+              <span>Dancing together (professionally) • Yesterday</span>
+            </div>
+          </div>
+          <div class="sighting">
+            <div class="sighting-icon">📍</div>
+            <div class="sighting-info">
+              <strong>LaGuardia Airport</strong>
+              <span>Same flight to LA • 3 days ago</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intervention Letter Generator -->
+  <section class="letter-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Take Action</p>
+        <h2 class="display section-title">Intervention Letter Generator</h2>
+        <p class="section-desc">Generate an official intervention letter to present to Rick, Jeff, or both.</p>
+      </div>
+      <div class="letter-generator reveal">
+        <div class="letter-form">
+          <input type="text" id="letterFrom" placeholder="Your Name">
+          <input type="text" id="letterRelation" placeholder="Your Relation (e.g., Concerned Fan)">
+          <select id="letterTo">
+            <option value="both">To Both Brothers</option>
+            <option value="rick">To Rick Specifically</option>
+            <option value="jeff">To Jeff Specifically</option>
+          </select>
+          <select id="letterTone">
+            <option value="gentle">Gentle Concern</option>
+            <option value="firm">Firm Intervention</option>
+            <option value="desperate">Desperate Plea</option>
+          </select>
+          <button class="generate-btn" id="generateLetter">Generate Official Letter</button>
+        </div>
+        <div class="letter-output" id="letterOutput">
+          <div class="letter-seal">OFFICIAL INTERVENTION</div>
+          <h4>Formal Letter of Concern</h4>
+          <div class="date" id="letterDate"></div>
+          <div class="greeting" id="letterGreeting"></div>
+          <div class="body" id="letterBody"></div>
+          <div class="signature">
+            Respectfully submitted,<br>
+            <span class="signature-name" id="letterSig"></span><br>
+            <span id="letterRole"></span>
+          </div>
+        </div>
+        <button class="print-btn" id="printLetter" style="display:none;">🖨️ Print This Letter</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expert Testimonials -->
+  <section>
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label">Professional Opinions</p>
+        <h2 class="display section-title">Expert Testimonials</h2>
+      </div>
+      <div class="experts-grid reveal">
+        <div class="expert-card">
+          <div class="expert-quote">"From a genetic standpoint, I must strongly advise against any Kuperman-Kuperman union. Not because of science—the science isn't really the issue here—but because I saw them at a diner once and it was already confusing."</div>
+          <div class="expert-avatar">🧬</div>
+          <div class="expert-name">Dr. Helen Marquez</div>
+          <div class="expert-title">Geneticist, Confused Bystander</div>
+        </div>
+        <div class="expert-card">
+          <div class="expert-quote">"I've delivered mail to the Kuperman Brothers for six years. Always to the same address. Always to both names. At first I thought they were partners. Then I learned they're brothers. I still have questions."</div>
+          <div class="expert-avatar">📬</div>
+          <div class="expert-name">Marcus Williams</div>
+          <div class="expert-title">USPS Mail Carrier, Amateur Investigator</div>
+        </div>
+        <div class="expert-card">
+          <div class="expert-quote">"I've seated them at The Outsiders seventeen times. They always sit together. They always share the armrest. They always cry at the same parts. It's beautiful but also concerning."</div>
+          <div class="expert-avatar">🎭</div>
+          <div class="expert-name">Jennifer O'Brien</div>
+          <div class="expert-title">Broadway Usher, Witness</div>
+        </div>
+        <div class="expert-card">
+          <div class="expert-quote">"Look, I make coffee for a living. I don't have a PhD. But even I know that when two people share the same last name and the same apartment and finish each other's drink orders, something's up."</div>
+          <div class="expert-avatar">☕</div>
+          <div class="expert-name">Tyler Okonkwo</div>
+          <div class="expert-title">Barista, Their Regular Coffee Shop</div>
+        </div>
+        <div class="expert-card">
+          <div class="expert-quote">"I'm their Uber driver. I've never driven them separately. They always sit in the back together even when the front seat is available. I've started asking 'date night?' and they always look horrified. Good sign."</div>
+          <div class="expert-avatar">🚗</div>
+          <div class="expert-name">Dmitri Volkov</div>
+          <div class="expert-title">Uber Driver, 4.97 Rating</div>
+        </div>
+        <div class="expert-card">
+          <div class="expert-quote">"As their accountant, I can confirm they file separately. That's the only thing they do separately. It's a start."</div>
+          <div class="expert-avatar">📊</div>
+          <div class="expert-name">Christine Park, CPA</div>
+          <div class="expert-title">Accountant, Voice of Reason</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container reveal">
+      <p class="label">Learn More</p>
+      <h2 class="display cta-title">Meet the Brothers (Separately)</h2>
+      <p class="cta-desc">Both Kupermans are single and ready to mingle with people who don't share their exact DNA.</p>
+      <div class="cta-links">
+        <a href="https://sage-assistant.github.io/ricky-kuperman/" target="_blank" class="cta-link gold">Meet Rick (The Legend)</a>
+        <a href="https://sage-assistant.github.io/jeff-kuperman/" target="_blank" class="cta-link outline">Meet Jeff (The Other One)</a>
+        <a href="https://kupermanbrothers.com" target="_blank" class="cta-link outline">Their Real Website</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p class="footer-logo">Kupermans Should Date Other People Foundation</p>
+      <p class="footer-tagline">A Nonprofit We Just Made Up • Est. 2024</p>
+      <p class="footer-disclaimer">This website is satire made with love. Rick and Jeff Kuperman are talented, successful, and (probably) not planning to marry each other. We support their individual romantic journeys, wherever those may lead (as long as it's not to each other).</p>
+    </div>
+  </footer>
+
+  <script>
+    // State
+    let entered = false, muted = false, secretClicks = 0;
+
+    // Elements
+    const $ = id => document.getElementById(id);
+    const splash = $('splash'), enterBtn = $('enterBtn'), bgMusic = $('bgMusic');
+    const audioControls = $('audioControls'), muteBtn = $('muteBtn');
+    const countdownBar = $('countdownBar'), liveTracker = $('liveTracker');
+    const dayCount = $('dayCount'), distanceValue = $('distanceValue');
+
+    // Calculate days since Jan 1, 1992 (arbitrary "safe" date)
+    const startDate = new Date(1992, 0, 1);
+    const today = new Date();
+    const daysSafe = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+    dayCount.textContent = daysSafe.toLocaleString();
+
+    // Enter site
+    enterBtn.onclick = () => {
+      entered = true;
+      splash.classList.add('hidden');
+      audioControls.classList.add('visible');
+      countdownBar.classList.add('visible');
+      liveTracker.classList.add('visible');
+      bgMusic.volume = 0.3;
+      bgMusic.play().catch(() => {});
+      
+      // Fluctuate distance
+      setInterval(() => {
+        const d = Math.floor(Math.random() * 20) + 5;
+        distanceValue.textContent = d;
+        liveTracker.querySelector('.live-tracker-status').textContent = 
+          d < 10 ? '🚨 CRITICAL PROXIMITY' : d < 20 ? '⚠️ DANGEROUSLY CLOSE' : '😐 Acceptable Distance';
+      }, 3000);
+    };
+
+    // Mute
+    muteBtn.onclick = () => {
+      muted = !muted;
+      bgMusic.muted = muted;
+      muteBtn.innerHTML = muted 
+        ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>'
+        : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
+    };
+
+    // Voicemail
+    $('playVoicemail').onclick = () => {
+      $('voicemailTranscript').classList.toggle('visible');
+      $('playVoicemail').textContent = $('voicemailTranscript').classList.contains('visible') ? '⏹' : '▶';
+    };
+
+    // Compatibility Calculator
+    $('calculateBtn').onclick = () => {
+      const p1 = $('person1').value.toLowerCase().trim();
+      const p2 = $('person2').value.toLowerCase().trim();
+      const result = $('calcResult');
+      const percent = $('resultPercent');
+      const msg = $('resultMessage');
+      
+      result.classList.remove('error');
+      percent.classList.remove('error-text');
+      
+      const isKuperman = (name) => name.includes('kuperman') || name.includes('rick') || name.includes('jeff');
+      
+      if (isKuperman(p1) && isKuperman(p2)) {
+        result.classList.add('error');
+        percent.classList.add('error-text');
+        percent.textContent = '⚠️ ERROR';
+        msg.textContent = 'SIBLINGS DETECTED. This calculation is forbidden. Please try with non-related individuals.';
+      } else if (p1 === p2) {
+        percent.textContent = '100%';
+        msg.textContent = "That's the same person. Self-love is important, but this isn't a dating app.";
+      } else {
+        const score = Math.floor(Math.random() * 60) + 40;
+        percent.textContent = score + '%';
+        msg.textContent = score > 80 ? 'Excellent match! (Not siblings, which is already a win)' 
+          : score > 60 ? 'Promising! Worth a first date.'
+          : 'Could work with effort. At least you\'re not related.';
+      }
+      result.classList.add('visible');
+    };
+
+    // Letter Generator
+    $('generateLetter').onclick = () => {
+      const from = $('letterFrom').value || 'A Concerned Citizen';
+      const relation = $('letterRelation').value || 'Concerned Observer';
+      const to = $('letterTo').value;
+      const tone = $('letterTone').value;
+      
+      const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      $('letterDate').textContent = today;
+      
+      const recipient = to === 'both' ? 'Rick and Jeff Kuperman' : to === 'rick' ? 'Rick Kuperman' : 'Jeff Kuperman';
+      $('letterGreeting').textContent = `Dear ${recipient},`;
+      
+      const bodies = {
+        gentle: `I hope this letter finds you well. I'm writing to you today out of genuine care and concern for your future happiness. It has come to my attention—and the attention of many others—that you spend a significant amount of time together. While brotherly bonds are beautiful, I gently encourage you to explore romantic connections with individuals outside your immediate family.\n\nThere are many wonderful people in the world who would be honored to date a Tony-nominated choreographer. I believe in your capacity to find love that is both legal and socially acceptable in all 50 states.`,
+        firm: `I'm writing to formally express my concern regarding your current relationship status. As accomplished professionals, you have much to offer potential romantic partners—partners who are not related to you by blood.\n\nThe time has come to take decisive action. I recommend immediately downloading at least two dating applications and setting up profiles that make clear your preference for non-siblings. This is not a suggestion; it is a necessity for your personal growth and the comfort of everyone around you.`,
+        desperate: `PLEASE. I am BEGGING you. Date other people. ANYONE ELSE. I lie awake at night worried about this. My therapist is tired of hearing about it. My friends have staged an intervention—for ME—because I can't stop talking about whether you two are okay.\n\nI don't know you personally but I feel like I do and I need you to find romantic love OUTSIDE of each other. This is a cry for help. My help. Please help me by helping yourselves. Download Hinge. Call your mom's friend. DO SOMETHING.`
+      };
+      
+      $('letterBody').innerHTML = bodies[tone].replace(/\n/g, '<br><br>');
+      $('letterSig').textContent = from;
+      $('letterRole').textContent = relation;
+      
+      $('letterOutput').classList.add('visible');
+      $('printLetter').style.display = 'block';
+    };
+
+    $('printLetter').onclick = () => window.print();
+
+    // Secret clicks
+    $('secretTrigger').onclick = () => {
+      secretClicks++;
+      if (secretClicks >= 10) {
+        alert('🎉 You clicked 10 times! Achievement unlocked: "Truly Dedicated to the Cause"\n\nRick and Jeff appreciate your commitment to their romantic futures.');
+      }
+    };
+
+    // Scroll reveals
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
