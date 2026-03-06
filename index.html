@@ -777,6 +777,80 @@
 
     .floating-totem:hover { transform: translateY(-2px); }
 
+    .cinematic-img {
+      width: 100%;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+      margin-bottom: 32px;
+      display: block;
+    }
+
+    .hero-banner-img {
+      width: 100%;
+      max-width: 900px;
+      margin: 32px auto 0;
+      border-radius: 20px;
+      border: 1px solid rgba(199,164,90,0.3);
+      box-shadow: 0 0 60px rgba(190,29,39,0.25), 0 20px 50px rgba(0,0,0,0.5);
+      display: block;
+    }
+
+    .section-img-wrap {
+      max-width: 1000px;
+      margin: 0 auto 40px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+
+    .section-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, var(--bg) 100%);
+      pointer-events: none;
+      border-radius: 20px;
+    }
+
+    .section-img-wrap img {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+    }
+
+    .throne-section {
+      text-align: center;
+      padding: 120px 0;
+      position: relative;
+    }
+
+    .throne-section .throne-img {
+      max-width: 700px;
+      margin: 0 auto 32px;
+      border-radius: 24px;
+      border: 2px solid rgba(199,164,90,0.35);
+      box-shadow: 0 0 80px rgba(199,164,90,0.15), 0 24px 60px rgba(0,0,0,0.6);
+      display: block;
+      width: 100%;
+    }
+
+    .throne-caption {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(20px, 3vw, 32px);
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .throne-sub {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
     .easter-banner {
       position: fixed;
       left: 50%;
@@ -869,7 +943,7 @@
         <div class="load-text" id="loadText">Encrypting your identity 0%</div>
         <div class="load-bar"><div class="load-fill" id="loadFill"></div></div>
       </div>
-      <button class="btn btn-main" id="enterSite" style="display:none;">I Accept the Terms of the Scrapyard</button>
+      <button class="btn btn-main" id="enterSite" style="display:none;animation:heroLoad 800ms cubic-bezier(0.16,1,0.3,1) both;">I Accept the Terms of the Scrapyard</button>
       <p class="tiny-note">HBO and its affiliates have no idea this exists.</p>
     </div>
   </div>
@@ -898,11 +972,16 @@
         <div class="motto-chip">Spares Are Coming.</div>
         <div class="motto-chip">Fire and Alternators.</div>
       </div>
+
+      <img src="hero-banner.jpg" alt="The Appel Dynasty official title card" class="hero-banner-img" loading="eager">
     </div>
   </header>
 
   <section>
     <div class="container">
+      <div class="section-img-wrap reveal">
+        <img src="aerial.jpg" alt="Aerial reconnaissance of the Appel compound" loading="lazy">
+      </div>
       <div class="section-head reveal">
         <p class="label">Dynasty Dossier</p>
         <h3 class="display">The Realm</h3>
@@ -931,6 +1010,9 @@
 
   <section>
     <div class="container">
+      <div class="section-img-wrap reveal">
+        <img src="heir.jpg" alt="The Heir surveys his kingdom" loading="lazy">
+      </div>
       <div class="section-head reveal">
         <p class="label">The Cast</p>
         <h3 class="display">Meet The Dynasty</h3>
@@ -1021,6 +1103,14 @@
           <div class="imdb">IMDb 10.0</div>
         </article>
       </div>
+    </div>
+  </section>
+
+  <section class="throne-section">
+    <div class="container reveal">
+      <img src="throne.jpg" alt="The Iron Throne of Booysens Road" class="throne-img" loading="lazy">
+      <div class="throne-caption">The Iron Throne of Booysens Road</div>
+      <div class="throne-sub">Forged from the engines of one thousand surrendered vehicles. No Appel has ever sat in it comfortably. That is the point.</div>
     </div>
   </section>
 
@@ -1302,14 +1392,15 @@
       const timer = setInterval(() => {
         progress += Math.floor(Math.random() * 13) + 6;
         if (progress > 100) progress = 100;
-        loadFill.style.width = `${progress}%`;
-        loadText.textContent = `Encrypting your identity ${progress}%`;
+        if (loadFill) loadFill.style.width = progress + '%';
+        if (loadText) loadText.textContent = 'Encrypting your identity ' + progress + '%';
         if (progress >= 100) {
           clearInterval(timer);
-          loadText.textContent = 'Identity encryption complete';
+          if (loadText) loadText.textContent = 'Identity encryption complete';
           enterSite.style.display = 'inline-block';
         }
       }, 280);
+      setTimeout(() => { enterSite.style.display = 'inline-block'; }, 4000);
     }
 
     enterSite.addEventListener('click', () => {
